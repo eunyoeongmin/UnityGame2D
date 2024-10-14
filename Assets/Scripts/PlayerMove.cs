@@ -25,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     {
         //Jump (단발적인 이동과 같은 경우에는 업데이트에 쓰는게 좋다)
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount) { //점프를 한번만 하게 함 max카운트 늘리면 더블점프
+            rigid.velocity = new Vector2(rigid.velocity.x,0);
             rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             jumpCount++;
             anim.SetBool("isJumping", true);
@@ -85,9 +86,11 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer.color = new Color(1,1,1,0.4f);
 
         // Reaction Force
-        int dirc = transform.position.x-targetPos.x > 0 ? 1 : -1;
+        int dirc = transform.position.x - targetPos.x > 0 ? 1 : -1;
         rigid.AddForce(new Vector2(dirc,1)*7,ForceMode2D.Impulse);
 
+        //Animation
+        anim.SetTrigger("doDamaged");
         Invoke("OffDamaged", 1); // 무적시간 조절
 
     }
