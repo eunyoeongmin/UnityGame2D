@@ -13,10 +13,13 @@ public class EnemeMove : MonoBehaviour
     public int nextMove;
 
     SpriteRenderer flip;
+
+    CapsuleCollider2D capsuleCollider;
     void Awake() {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         flip = GetComponent<SpriteRenderer>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
         Invoke("Think",5);
     }
 
@@ -59,5 +62,22 @@ public class EnemeMove : MonoBehaviour
         flip.flipX = nextMove == 1;
         CancelInvoke();
         Invoke("Think",2);
+    }
+
+    public void OnDamaged() {
+        //Sprite Alpha
+        flip.color = new Color(1,1,1, 0.4f);
+        //Sprite Flip Y
+        flip.flipY = true;
+        //Collider Disable
+        capsuleCollider.enabled = false;
+        //Die Effect Jump
+        rigid.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
+        //Destroy
+        Invoke("DeActive", 5);
+    }
+
+    void DeActive() {
+        gameObject.SetActive(false);
     }
 }
