@@ -15,6 +15,7 @@ public class PlayerMove : MonoBehaviour
     public AudioClip audioItem;
     public AudioClip audioDie;
     public AudioClip audioFinish;
+    public AudioClip audioBgm;
     Rigidbody2D rigid;
 
     SpriteRenderer spriteRenderer;
@@ -52,9 +53,17 @@ public class PlayerMove : MonoBehaviour
                 break;
             case "FINISH":
                 audioSource.clip = audioFinish;
-                break;   
+                break;  
+            case "BGM":
+                audioSource.clip = audioBgm;
+                break; 
         }
     } 
+
+    void Start() {
+        PlaySound("BGM");
+        audioSource.Play();
+    }
 
     void Update() 
     {
@@ -105,7 +114,6 @@ public class PlayerMove : MonoBehaviour
                 jumpCount = 0;
             }
         }
-        
     }
     //충돌이벤트
     void OnCollisionEnter2D(Collision2D collision) {
